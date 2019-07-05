@@ -7,3 +7,7 @@ the following methods:
 
 From each of the techniques, several statistics will be extracted, which will then
 be passed to a PCA algorithm, to obtain the final characteristics.
+
+The files necessary for the computing of the GRLR matrix where obtained from the
+following link:
+    https://la.mathworks.com/matlabcentral/fileexchange/17482-gray-level-run-length-matrix-toolbox
