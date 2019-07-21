@@ -1,6 +1,6 @@
 close all;
 clc;
-clear all;
+clear;
 
 %% leer archivos
 if ispc
@@ -27,14 +27,17 @@ for i1=1:nIm
     [lv,lu] = size(im);
     
     for i2=1:Windows_Number
-        Window_point = zeros(Window_width(i2));
+        Window_point = zeros((Window_width(i2)));
         mxu = (lu - 1-Window_width(i2));
         mxv = (lv - 1-Window_width(i2));
         mn = (1+Window_width(i2));
+        id1 = 1-ceil(Window_width(i2)/2);
+        id2 = ceil(Window_width(i2)/2) +1 -2*mod(ceil(Window_width(i2)/2),2);
+        
         for i3 = 1:Points_Number
             OWu = floor((mxu-mn)*rand()+mn);
             OWv = floor((mxv-mn)*rand()+mn);
-            Window_point = im(OWv-Window_width(i2)+1:OWv+Window_width(i2)-1,OWu-Window_width(i2)+1:OWu+Window_width(i2)-1);
+            Window_point = im(OWv+id1:OWv+id2,OWu+id1:OWu+id2);
             [sumImg, diffImg] = sumDifImgs(Window_point);
             %% Feature Calculation
             Correlation_Feature = fcorrelation(sumImg,diffImg);
