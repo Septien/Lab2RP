@@ -40,13 +40,11 @@ for i1=1:nIm
             Window_point = im(OWv+id1:OWv+id2,OWu+id1:OWu+id2);
             [sumImg, diffImg] = sumDifImgs(Window_point);
             %% Feature Calculation
-            Correlation_Feature = fcorrelation(sumImg,diffImg);
-            Contrast_Feature = fcontrast(diffImg);
-            Homogeneity_Feature = fhomogeneity(diffImg);
-            CluserShade_Feature = fCShade(sumImg);
-            ClusterProminece_Feature = fCProminece(sumImg);
-            
-            SDH_feature_matrix(Points_Number*(i1-1)+i3,(i2-1)*5+1:(i2-1)*5+5) = [Correlation_Feature,Contrast_Feature,Homogeneity_Feature,CluserShade_Feature,ClusterProminece_Feature];
+            SDH_feature_matrix(Points_Number*(i1-1)+i3,(i2-1)*5+1:(i2-1)*5+5) = [fcorrelation(sumImg,diffImg),fcontrast(diffImg),fhomogeneity(diffImg),fCShade(sumImg),fCProminece(sumImg)];
         end
     end
 end
+
+percentage = 1;
+[coeffsdhcm,sdhcmPropsPCA,latentsdhcm,tsquaredsdhcm,explainedsdhcm] = pca(SDH_feature_matrix', 'NumComponents', nIm * percentage);%Datos nuevos extraidos del PCA
+[coeffsdhl,sdhlPropsPCA,latentsdhl,tsquaredsdhl,explainedsdhl] = pca(SDH_feature_matrix', 'NumComponents', nIm * percentage);%Datos nuevos extraidos del PCA
