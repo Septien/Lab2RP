@@ -1,19 +1,24 @@
 close all;
 clc;
 clear all;
-%%
-nIm=7;
-% leer archivos
-fname = '../imas/ima';
-fnamext= '.gif';
-% For the gray-level covariance matrix
+%% leer archivos
+if ispc
+    d='\';
+else
+    d='/';
+end
+
+pht1 = [pwd d , 'imas', d];
+fl1=dir([pht1  '*.gif']);
+nIm=length(fl1);
+%% For the gray-level covariance matrix
             % 0º 45º   90º   135º
 dir1GLCM = [0 1; -1 1; -1 0; -1 -1]; % at distance 1
 dir2GLCM = [0 2; -2 2; -2 0; -2 -2]; % at distance 2
 dir3GLCM = [0 3; -3 3; -2 0; -3 -3]; % at distance 3
 dir4GLCM = [0 4; -4 4; -4 0; -4 -4]; % at distance 4
 dir5GLCM = [0 5; -5 5; -5 0; -5 -5]; % at distance 5
-% For the gray-level run lenght matrix
+%% For the gray-level run lenght matrix
           %0º, 45º, 90º
 dirGLRL = [1 2 3];
 glcm = zeros(8, 8, 20);
@@ -21,9 +26,8 @@ J = zeros(1, 20);
 glcmProps = zeros(nIm, 100);
 glrlProps = double(zeros(nIm, 9));
 
-for i=1:nIm
-    imA = strcat(fname, num2str(i), fnamext);
-    im = imread(imA);
+for i1=1:nIm
+    im = imread([pht1 fl1(i1).name]);
     % Compute the gray-level correlation matrix
     glcm(:, :, 1:4) = graycomatrix(im, 'NumLevels', 8, 'Offset', dir1GLCM);
     glcm(:, :, 5:8) = graycomatrix(im, 'NumLevels', 8, 'Offset', dir2GLCM);
@@ -36,12 +40,12 @@ for i=1:nIm
     end
     props = graycoprops(glcm);
     % Store
-    glcmProps(i, :) = [props.Correlation, props.Contrast, props.Homogeneity, props.Energy, J];
+    glcmProps(i1, :) = [props.Correlation, props.Contrast, props.Homogeneity, props.Energy, J];
     
     % Compute the gray-level run length
     glrl = grayrlmatrix(im, 'NumLevels', 8, 'Offset', dirGLRL');
     glrlPropsA = grayrlprops(glrl);
-    glrlProps(i, :) = [glrlPropsA(1, 1:3), glrlPropsA(2, 1:3), glrlPropsA(3, 1:3)];
+    glrlProps(i1, :) = [glrlPropsA(1, 1:3), glrlPropsA(2, 1:3), glrlPropsA(3, 1:3)];
 end
 %%
 percentage = 1;
