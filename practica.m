@@ -8,9 +8,9 @@ else
     d='/';
 end
 
-pht1 = [pwd d , 'imas', d];
-fl1=dir([pht1  '*.gif']);
-nIm=length(fl1);
+pht1 = [pwd d , '../Fallas', d];
+fl1=dir([pht1  '*.tif']);
+nIm=100;
 %% For the gray-level covariance matrix
             % 0º 45º   90º   135º
 dir1GLCM = [0 1; -1 1; -1 0; -1 -1]; % at distance 1
@@ -27,7 +27,8 @@ glcmProps = zeros(nIm, 100);
 glrlProps = double(zeros(nIm, 9));
 
 for i1=1:nIm
-    im = imread([pht1 fl1(i1).name]);
+    imC = imread([pht1 fl1(i1).name]);
+    im = rgb2gray(imC);
     % Compute the gray-level correlation matrix
     glcm(:, :, 1:4) = graycomatrix(im, 'NumLevels', 8, 'Offset', dir1GLCM);
     glcm(:, :, 5:8) = graycomatrix(im, 'NumLevels', 8, 'Offset', dir2GLCM);
@@ -41,7 +42,7 @@ for i1=1:nIm
     props = graycoprops(glcm);
     % Store
     glcmProps(i1, :) = [props.Correlation, props.Contrast, props.Homogeneity, props.Energy, J];
-    
+
     % Compute the gray-level run length
     glrl = grayrlmatrix(im, 'NumLevels', 8, 'Offset', dirGLRL');
     glrlPropsA = grayrlprops(glrl);
@@ -51,4 +52,3 @@ end
 percentage = 1;
 [coeffglcm,glcmPropsPCA,latentglcm,tsquaredglcm,explainedglcm] = pca(glcmProps', 'NumComponents', nIm * percentage);%Datos nuevos extraidos del PCA
 [coeffglrl,glrlPropsPCA,latentglrl,tsquaredglrl,explainedglrl] = pca(glrlProps', 'NumComponents', nIm * percentage);%Datos nuevos extraidos del PCA
-
