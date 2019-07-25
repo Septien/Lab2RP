@@ -3,8 +3,8 @@ function y = fmean1(Window)
 N = lv*lu;
 M = 0;
     for i1 = 1:N
-        M = M + Window(i1);
+        M = i1*Window(i1);
     end
-y = M/N; 
+y = 0.5*M; 
 end
         

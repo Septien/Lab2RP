@@ -46,5 +46,4 @@ for i1=1:nIm
 end
 
 percentage = 1;
-[coeffsdhcm,sdhcmPropsPCA,latentsdhcm,tsquaredsdhcm,explainedsdhcm] = pca(SDH_feature_matrix', 'NumComponents', nIm * percentage);%Datos nuevos extraidos del PCA
 [coeffsdhl,sdhlPropsPCA,latentsdhl,tsquaredsdhl,explainedsdhl] = pca(SDH_feature_matrix', 'NumComponents', nIm * percentage);%Datos nuevos extraidos del PCA
