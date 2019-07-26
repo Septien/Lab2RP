@@ -26,7 +26,8 @@ J = zeros(1, 20);
 glcmProps = zeros(nIm, 100);
 glrlProps = double(zeros(nIm, 9));
 
-for i1=1:nIm
+
+for i1 =1:nIm
     im = imread([pht1 fl1(i1).name]);
     % Compute the gray-level correlation matrix
     glcm(:, :, 1:4) = graycomatrix(im, 'NumLevels', 8, 'Offset', dir1GLCM);
@@ -46,6 +47,8 @@ for i1=1:nIm
     glrl = grayrlmatrix(im, 'NumLevels', 8, 'Offset', dirGLRL');
     glrlPropsA = grayrlprops(glrl);
     glrlProps(i1, :) = [glrlPropsA(1, 1:3), glrlPropsA(2, 1:3), glrlPropsA(3, 1:3)];
+    
+    
 end
 %%
 percentage = 1;

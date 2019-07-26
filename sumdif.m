@@ -9,9 +9,9 @@ else
     d='/';
 end
 
-pht1 = [pwd d , 'imas', d];
-fl1=dir([pht1  '*.gif']);
-nIm=length(fl1);
+pht1 = [pwd d , 'Fallas', d];
+fl1=dir([pht1  '*.tif']);
+nIm=length(fl1)/2;
 dir = [0 1;-1 1; -1 0;-1 -1];
 
 %% For SDH Feacture Matrix
@@ -22,7 +22,8 @@ Windows_Number=length(Window_width);
 SDH_feature_matrix = double(zeros(nIm*Points_Number,(length(Window_width))*Wave_Number));
 
 for i1=1:nIm
-    im = imread([pht1 fl1(i1).name]);
+    imrgb = imread([pht1 fl1(i1).name]);
+    im = rgb2gray(imrgb);
     im = im2double(im);
     [lv,lu] = size(im);
     
@@ -47,3 +48,29 @@ end
 
 percentage = 1;
 [coeffsdhl,sdhlPropsPCA,latentsdhl,tsquaredsdhl,explainedsdhl] = pca(SDH_feature_matrix', 'NumComponents', nIm * percentage);%Datos nuevos extraidos del PCA
+%% Gr\'afica
+% explainsum=zeros(length(explainedsdhl)+1,1);
+% explainsum(1) = 0;
+% explainsum(2) = explainedsdhl(1);
+% for i4=3:length(explainedsdhl)+1
+%     explainsum(i4) = explainsum(i4-1) + explainedsdhl(i4-1);
+% end
+
+explainsum=zeros(length(explainedsdhl),1);
+explainsum(1) = explainedsdhl(1);
+for i4=2:length(explainedsdhl)
+    explainsum(i4) = explainsum(i4-1) + explainedsdhl(i4);
+end
+
+figure(1)
+plot(explainsum,'r-*');
+grid on;
+xlim([0 60]);
+ylim([0 100]);
+xlabel('Caracteristicas');
+ylabel('Porcentaje acumulado');
+title('Porcentaje de caracteristicas PCA');
+print('-f1', '-djpeg80','-r300','FIG_SHD_PCA.jpg');
+
+
+    
