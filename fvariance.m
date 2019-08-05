@@ -1,11 +1,13 @@
 function y = fvariance(Window, Window1)
 [lv, lu] = size(Window);
 [lv1, lu1] = size(Window1);
+%Window = Window';
+%Window1 = Window1';
 N = lv*lu;
 N1 = lv1*lu1;
 M = 0;
 M1 =0;
-mu = mean(mean(Window));
+mu = fmean1(Window);
     for i1 = 1:N
         M = M + ((i1-2*mu)^2)*Window(i1);
     end

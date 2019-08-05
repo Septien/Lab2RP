@@ -1,5 +1,6 @@
 function y = fcontrast(Window)
 [lv, lu] = size(Window);
+%Window = Window';
 N = lv*lu;
 y = 0;
 for i1 = 1:N

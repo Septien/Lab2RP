@@ -47,6 +47,8 @@ for i1=1:nIm
     glrl = grayrlmatrix(im, 'NumLevels', 8, 'Offset', dirGLRL');
     glrlPropsA = grayrlprops(glrl);
     glrlProps(i1, :) = [glrlPropsA(1, 1:3), glrlPropsA(2, 1:3), glrlPropsA(3, 1:3)];
+    
+    
 end
 %%
 percentage = 1;
